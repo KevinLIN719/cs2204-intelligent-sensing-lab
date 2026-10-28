@@ -35,7 +35,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const promoText = document.getElementById('promoText1');
 
     function initVideoLoop() {
+        // This page has no #videoContainer, so there is no loop to start.
+        if (!videoContainer) return;
         const video = videoContainer.querySelector('video');
+        if (!video) return;
         video.addEventListener('ended', switchVideo);
     }
 
