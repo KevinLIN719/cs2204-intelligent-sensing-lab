@@ -1,0 +1,29 @@
+.contact{
+    margin-bottom: 120px;
+    h2{
+        text-align: center;
+    }
+    table{
+        margin: 20px auto;
+        border: 2px solid black;
+        border-collapse: separate;
+        text-align: center;
+        th{
+            border: 2px solid black;
+            background-color: aqua;
+        }
+        td{
+            border: 2px solid black;
+            padding: 0 2px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        tr:nth-child(even){
+            background-color: lightgoldenrodyellow;
+        }
+        td:hover{
+            background-color: yellow;
+            border-radius: 6px;
+        }
+    }
+}

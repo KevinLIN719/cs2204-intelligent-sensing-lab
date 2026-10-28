@@ -1,0 +1,20 @@
+h1{
+    text-align: center;
+}
+h2{
+    padding-left: 10px;
+}
+.design_block{
+    margin: 10px;
+    border: 2px solid black;
+    ul{
+        padding: 20px;
+        list-style: decimal;
+    }
+}
+span{
+    background-color: yellow;
+}
+img{
+    padding: 20px;
+}

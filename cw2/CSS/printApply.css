@@ -1,0 +1,22 @@
+section{
+    display: none;
+}
+* {
+  color: #000 !important;
+  background-color: transparent !important;
+  border-color: #000 !important;
+  outline-color: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+table, th, td {
+  background: none !important;
+  border-color: #000 !important;
+}
+.main-nav{
+    display: none;
+}
+input{
+    display: none;
+}

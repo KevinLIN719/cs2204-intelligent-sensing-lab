@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI+ enhanced edition of the CityU CS2204 Intelligent Sensing Lab coursework website.">
+<title>Intelligent Sensing Lab — AI+ Enhanced Edition</title>
+<link rel="icon" href="../cw3/images/logo.png" type="image/png">
+<script>
+(function () {
+  var THEME_KEY = 'isl-ai-plus-theme';
+  function preferred() {
+    try {
+      var stored = window.localStorage.getItem(THEME_KEY);
+      if (stored === 'light' || stored === 'dark') return stored;
+    } catch (error) { /* storage unavailable */ }
+    try {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+    } catch (error) { /* media query unavailable */ }
+    return 'light';
+  }
+  document.documentElement.setAttribute('data-theme', preferred());
+}());
+</script>
+<style>
+/* ---------- Design tokens ---------- */
+:root {
+  color-scheme: light;
+  --bg: #f4f7f9;
+  --ink: #17202a;
+  --muted: #4c5b66;
+  --card: #ffffff;
+  --card-2: #f7fafc;
+  --border: #d8e1e8;
+  --accent: #2073b7;
+  --accent-strong: #1a5f96;
+  --accent-text: #1a5f96;
+  --accent-soft: #e8f2fa;
+  --success: #176b3a;
+  --success-soft: #e9f6ee;
+  --danger: #b3261e;
+  --danger-soft: #fdecea;
+  --focus: #2073b7;
+  --shadow: 0 1px 2px rgba(23, 32, 42, .04), 0 14px 34px rgba(23, 32, 42, .07);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --content: min(1100px, calc(100% - 32px));
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111a21;
+  --ink: #e9eff4;
+  --muted: #a6b6c2;
+  --card: #18232c;
+  --card-2: #1d2a34;
+  --border: #2b3b47;
+  --accent: #2073b7;
+  --accent-strong: #2b86c9;
+  --accent-text: #7dbde8;
+  --accent-soft: #16293a;
+  --success: #7fdaa5;
+  --success-soft: #142b21;
+  --danger: #ff9d94;
+  --danger-soft: #321d1d;
+  --focus: #7dbde8;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 18px 44px rgba(0, 0, 0, .38);
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: 72px; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .2s ease, color .2s ease;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--accent-text); text-underline-offset: 3px; }
+a:hover { color: var(--accent-strong); }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+.wrap { width: var(--content); margin-inline: auto; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+.skip-link {
+  position: absolute; left: 12px; top: -64px; z-index: 100;
+  background: var(--accent); color: #fff; font-weight: 700;
+  padding: 10px 16px; border-radius: 0 0 8px 8px; text-decoration: none;
+  transition: top .15s ease;
+}
+.skip-link:focus { top: 0; color: #fff; }
+
+/* ---------- Header ---------- */
+.site-header { background: var(--card); border-bottom: 1px solid var(--border); }
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 14px 0;
+}
+.brand { display: flex; align-items: center; gap: 14px; min-width: 0; text-decoration: none; color: inherit; }
+.brand:hover { color: inherit; }
+.logo-plate {
+  display: inline-flex; align-items: center; flex: 0 0 auto;
+  background: #fff; border: 1px solid rgba(23, 32, 42, .1);
+  border-radius: 8px; padding: 4px 6px;
+}
+[data-theme="dark"] .logo-plate { border-color: rgba(255, 255, 255, .18); box-shadow: 0 0 0 1px rgba(255, 255, 255, .04); }
+.brand-logo {
+  width: 46px; height: 46px; max-width: 46px;
+  object-fit: cover; object-position: left center;
+}
+.brand-copy { display: flex; flex-direction: column; gap: 1px; min-width: 0; line-height: 1.2; }
+.brand-name { font-size: 1.06rem; font-weight: 700; letter-spacing: -.015em; }
+.brand-sub {
+  font-size: .68rem; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--accent-text);
+}
+.theme-toggle {
+  flex: 0 0 auto; width: 42px; height: 42px; padding: 0;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--border); border-radius: 999px;
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent-text); background: var(--accent-soft); }
+.theme-icon {
+  width: 20px; height: 20px; fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+[data-theme="light"] .theme-icon-sun { display: none; }
+[data-theme="dark"] .theme-icon-moon { display: none; }
+
+/* ---------- Tabs ---------- */
+.tabbar {
+  position: sticky; top: 0; z-index: 30;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.tabbar-inner { display: flex; }
+.tablist {
+  display: flex; gap: 4px; padding: 8px 0;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.tab {
+  appearance: none; -webkit-appearance: none;
+  flex: 0 0 auto; position: relative;
+  background: transparent; border: 0; border-radius: 8px;
+  padding: 9px 16px; cursor: pointer; white-space: nowrap;
+  font-size: .95rem; font-weight: 600; color: var(--muted);
+  transition: background-color .15s ease, color .15s ease;
+}
+.tab:hover { color: var(--ink); background: var(--accent-soft); }
+.tab[aria-selected="true"] { color: var(--accent-text); background: var(--accent-soft); }
+.tab[aria-selected="true"]::after {
+  content: ""; position: absolute; left: 18px; right: 18px; bottom: 3px;
+  height: 2px; border-radius: 2px; background: var(--accent);
+}
+
+/* ---------- Main / panels ---------- */
+.main { flex: 1 0 auto; padding: 32px 0 64px; }
+.panel { animation: panel-in .2s ease both; }
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel { animation: none; }
+  body { transition: none; }
+}
+.section-head { max-width: 780px; margin-bottom: 24px; }
+.eyebrow {
+  margin: 0 0 8px; font-size: .72rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text);
+}
+h1, h2, h3 { color: var(--ink); }
+h1 { margin: 0 0 12px; font-size: clamp(1.9rem, 3.8vw, 2.7rem); line-height: 1.12; letter-spacing: -.025em; }
+h2 { margin: 0 0 10px; font-size: clamp(1.3rem, 2.3vw, 1.7rem); line-height: 1.22; letter-spacing: -.015em; }
+h3 { margin: 0 0 6px; font-size: 1.06rem; line-height: 1.3; }
+p { margin: 0 0 1em; }
+.prose p:last-child { margin-bottom: 0; }
+.lede { margin: 0; font-size: 1.04rem; color: var(--muted); }
+.small { font-size: .88rem; color: var(--muted); }
+.block-title { margin: 36px 0 16px; }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative; overflow: hidden; margin-bottom: 26px;
+  padding: clamp(26px, 4.6vw, 48px);
+  background: linear-gradient(135deg, var(--accent-soft) 0%, var(--card) 58%);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.hero::before {
+  content: ""; position: absolute; top: -110px; right: -90px;
+  width: 320px; height: 320px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(32, 115, 183, .20), rgba(32, 115, 183, 0) 68%);
+}
+.hero::after {
+  content: ""; position: absolute; inset: auto -40px -120px auto;
+  width: 260px; height: 260px; border-radius: 50%; pointer-events: none;
+  border: 1px solid rgba(32, 115, 183, .22);
+}
+.hero-inner { position: relative; z-index: 1; max-width: 740px; }
+.hero h1 { font-size: clamp(2rem, 4.4vw, 3rem); }
+.hero .lede { font-size: 1.1rem; max-width: 640px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 18px; border: 1px solid transparent; border-radius: 8px;
+  background: var(--accent); color: #fff; font-weight: 600; text-decoration: none;
+  cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+.btn:hover { background: var(--accent-strong); color: #fff; }
+.btn-ghost { background: transparent; color: var(--accent-text); border-color: var(--border); }
+.btn-ghost:hover { background: var(--accent-soft); color: var(--accent-text); border-color: var(--accent); }
+
+/* ---------- Layout helpers ---------- */
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 20px; align-items: start; margin-top: 28px; }
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+}
+.card > :last-child { margin-bottom: 0; }
+
+/* ---------- Home ---------- */
+.domain-card { border-top: 3px solid var(--accent); }
+.domain-index {
+  margin: 0 0 10px; font-size: .76rem; font-weight: 700;
+  letter-spacing: .14em; color: var(--accent-text); font-variant-numeric: tabular-nums;
+}
+.domain-card p:last-child { color: var(--muted); margin-bottom: 0; }
+.map-card { margin: 0; overflow: hidden; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.map-card img { width: 100%; height: clamp(220px, 30vw, 340px); object-fit: cover; }
+.map-card figcaption { padding: 10px 14px; font-size: .84rem; color: var(--muted); border-top: 1px solid var(--border); }
+.detail-list { margin: 0 0 16px; display: grid; gap: 14px; }
+.detail-list dt {
+  font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted);
+}
+.detail-list dd { margin: 2px 0 0; }
+.detail-list a { font-weight: 600; }
+
+/* ---------- About ---------- */
+.about-banner {
+  margin: 0 0 26px; overflow: hidden; background: var(--card);
+  border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.about-banner img { width: 100%; height: clamp(180px, 30vw, 360px); object-fit: cover; object-position: center top; }
+.about-banner figcaption { padding: 10px 16px; font-size: .84rem; color: var(--muted); border-top: 1px solid var(--border); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 28px; }
+.stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.stat-value { display: block; font-size: 1.55rem; font-weight: 750; letter-spacing: -.02em; line-height: 1.15; }
+.stat-label { display: block; margin-top: 4px; font-size: .82rem; color: var(--muted); line-height: 1.35; }
+.clean-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.clean-list li { position: relative; padding-left: 22px; }
+.clean-list li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+}
+.clean-list strong { font-weight: 650; }
+
+/* ---------- Apply ---------- */
+.deadline {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
+  margin: 0 0 26px; padding: 14px 18px;
+  background: var(--accent-soft); border: 1px solid var(--border); border-left: 4px solid var(--accent);
+  border-radius: var(--radius-sm);
+}
+.deadline-label { font-size: .74rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--accent-text); }
+.deadline-value { font-size: 1.08rem; }
+.division { margin: 0 0 26px; }
+.division-head {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px;
+  margin-bottom: 12px; padding-bottom: 9px; border-bottom: 1px solid var(--border);
+}
+.division-head h2 { margin: 0; font-size: 1.2rem; }
+.division-head p { margin: 0; font-size: .9rem; color: var(--muted); }
+.group-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.group-card {
+  display: flex; align-items: center; gap: 12px; padding: 12px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  transition: border-color .15s ease, transform .15s ease;
+}
+.group-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.group-card img { width: 54px; height: 54px; flex: 0 0 auto; object-fit: cover; border-radius: 8px; background: var(--accent-soft); }
+.group-card h3 { margin: 0; font-size: .93rem; font-weight: 600; line-height: 1.3; }
+.requirements { margin: 0 0 30px; }
+.requirements h2 { font-size: 1.15rem; }
+
+/* ---------- Forms ---------- */
+.form-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: clamp(18px, 3vw, 28px);
+  box-shadow: var(--shadow);
+}
+.form-fieldset { margin: 0 0 18px; padding: 0; border: 0; }
+.form-fieldset legend {
+  padding: 0; margin-bottom: 12px; font-weight: 700; font-size: .95rem;
+  color: var(--ink);
+}
+.form-fieldset legend + * { margin-top: 0; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 18px; }
+.field { margin-bottom: 16px; min-width: 0; }
+.field-full { grid-column: 1 / -1; }
+.field label { display: block; margin-bottom: 6px; font-size: .92rem; font-weight: 600; }
+.req { font-weight: 500; font-size: .78rem; color: var(--muted); }
+.form-card input, .form-card select, .form-card textarea {
+  width: 100%; padding: 10px 12px;
+  background: var(--bg); color: var(--ink);
+  border: 1px solid var(--border); border-radius: 8px;
+  font: inherit; font-size: .95rem; line-height: 1.4;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.form-card textarea { resize: vertical; min-height: 110px; }
+.form-card input:focus, .form-card select:focus, .form-card textarea:focus {
+  outline: 2px solid var(--focus); outline-offset: 0; border-color: var(--accent);
+}
+.form-card input::placeholder, .form-card textarea::placeholder { color: var(--muted); opacity: .8; }
+.form-card [aria-invalid="true"] { border-color: var(--danger); background: var(--danger-soft); }
+.form-card select:disabled { color: var(--muted); cursor: not-allowed; opacity: .8; }
+.hint { margin: 6px 0 0; font-size: .8rem; color: var(--muted); }
+.field-error { margin: 6px 0 0; font-size: .82rem; font-weight: 600; color: var(--danger); }
+.form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 6px; }
+.form-note { margin: 14px 0 0; font-size: .8rem; color: var(--muted); }
+.error-summary {
+  margin: 0 0 20px; padding: 14px 18px;
+  background: var(--danger-soft); border: 1px solid var(--danger); border-radius: 10px;
+}
+.error-summary:focus, .success-panel:focus { outline: none; }
+.error-summary h3 { margin: 0 0 8px; font-size: .96rem; color: var(--danger); }
+.error-summary ul { margin: 0; padding-left: 18px; }
+.error-summary li { margin: 4px 0; }
+.error-link {
+  padding: 0; background: none; border: 0; cursor: pointer;
+  color: var(--danger); font-size: .88rem; font-weight: 600;
+  text-align: left; text-decoration: underline; text-underline-offset: 2px;
+}
+.error-link:hover { color: var(--danger); text-decoration-thickness: 2px; }
+.success-panel {
+  padding: clamp(18px, 3vw, 26px);
+  background: var(--success-soft); border: 1px solid var(--success); border-radius: var(--radius);
+}
+.success-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+.success-icon {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--success); color: var(--bg); font-weight: 800; font-size: 1rem;
+}
+.success-panel h3 { margin: 0 0 4px; font-size: 1.2rem; }
+.success-panel .success-head p { margin: 0; font-size: .92rem; color: var(--muted); }
+.summary-list {
+  display: grid; grid-template-columns: max-content minmax(0, 1fr);
+  gap: 8px 18px; margin: 18px 0;
+  padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.summary-list dt { font-size: .84rem; color: var(--muted); }
+.summary-list dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.summary-list dd.pre-wrap { white-space: pre-wrap; font-weight: 500; }
+.success-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ---------- Tables ---------- */
+.table-wrap {
+  overflow-x: auto; background: var(--card);
+  border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: .93rem; }
+caption { padding: 14px 16px; text-align: left; font-weight: 700; border-bottom: 1px solid var(--border); }
+th, td { padding: 11px 16px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+thead th {
+  background: var(--card-2); color: var(--muted);
+  font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+tbody tr:hover { background: var(--accent-soft); }
+td.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .86rem; overflow-wrap: anywhere; }
+
+/* ---------- Information ---------- */
+.media-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.media-card video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
+.media-body { padding: 18px; }
+.media-body h3 { margin-bottom: 6px; }
+.media-body p { color: var(--muted); font-size: .93rem; }
+.media-note { margin: 8px 0 0; font-size: .78rem; color: var(--muted); }
+.video-fallback {
+  margin: 0; padding: 12px 16px; font-size: .85rem;
+  background: var(--danger-soft); border-top: 1px solid var(--danger);
+}
+.research-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.research-card img { width: 100%; height: auto; background: var(--accent-soft); }
+.research-body { display: flex; flex-direction: column; flex: 1; padding: 15px; }
+.research-meta {
+  margin: 0 0 6px; font-size: .68rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text);
+}
+.research-body h3 { font-size: 1rem; }
+.research-body p { margin: 0; font-size: .88rem; color: var(--muted); }
+.research-foot {
+  margin-top: auto; padding-top: 10px; font-size: .8rem; color: var(--muted);
+  border-top: 1px dashed var(--border);
+}
+
+/* ---------- Footer ---------- */
+.site-footer { margin-top: 40px; background: var(--card); border-top: 1px solid var(--border); }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px 40px; padding: 28px 0 34px; }
+.footer-brand { max-width: 460px; }
+.footer-plate { margin-bottom: 12px; }
+.footer-logo { height: 34px; width: auto; }
+.footer-line { margin: 2px 0; font-size: .88rem; color: var(--muted); }
+.footer-links { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.footer-links a { font-size: .9rem; font-weight: 600; }
+.footer-note { width: 100%; margin: 0; padding-top: 14px; border-top: 1px solid var(--border); font-size: .76rem; color: var(--muted); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 880px) {
+  .split { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .main { padding: 24px 0 48px; }
+  .header-inner { gap: 10px; padding: 11px 0; }
+  .brand { gap: 9px; }
+  .brand-logo { width: 38px; height: 38px; max-width: 38px; }
+  .logo-plate { padding: 3px 5px; }
+  .brand-name { font-size: .9rem; }
+  .brand-sub { font-size: .6rem; letter-spacing: .1em; }
+  .theme-toggle { width: 38px; height: 38px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid .field-full { grid-column: auto; }
+  .summary-list { grid-template-columns: 1fr; gap: 2px; }
+  .summary-list dd { margin-bottom: 10px; }
+  .hero { padding: 24px 20px; }
+  .tab { padding: 8px 12px; font-size: .9rem; }
+}
+@media (max-width: 380px) {
+  .brand-logo { width: 34px; height: 34px; max-width: 34px; }
+  .brand-name { font-size: .82rem; }
+  .brand-sub { font-size: .56rem; letter-spacing: .06em; }
+  .tab { padding: 8px 10px; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#home" data-goto="home">
+      <span class="logo-plate"><img class="brand-logo" src="../cw3/images/logo.png" alt="" width="46" height="46" decoding="async"></span>
+      <span class="brand-copy">
+        <span class="brand-name">Intelligent Sensing Lab</span>
+        <span class="brand-sub">AI+ Enhanced Edition</span>
+      </span>
+    </a>
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false" aria-label="Switch to dark theme" title="Switch to dark theme">
+      <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="tabbar">
+  <div class="wrap tabbar-inner">
+    <div class="tablist" role="tablist" aria-label="Lab sections" id="section-tabs">
+      <button type="button" class="tab" id="tab-home" role="tab" aria-selected="true" aria-controls="panel-home" tabindex="0" data-tab="home">Home</button>
+      <button type="button" class="tab" id="tab-about" role="tab" aria-selected="false" aria-controls="panel-about" tabindex="-1" data-tab="about">About</button>
+      <button type="button" class="tab" id="tab-apply" role="tab" aria-selected="false" aria-controls="panel-apply" tabindex="-1" data-tab="apply">Apply</button>
+      <button type="button" class="tab" id="tab-visit" role="tab" aria-selected="false" aria-controls="panel-visit" tabindex="-1" data-tab="visit">Visit</button>
+      <button type="button" class="tab" id="tab-information" role="tab" aria-selected="false" aria-controls="panel-information" tabindex="-1" data-tab="information">Information</button>
+      <button type="button" class="tab" id="tab-contact" role="tab" aria-selected="false" aria-controls="panel-contact" tabindex="-1" data-tab="contact">Contact</button>
+    </div>
+  </div>
+</div>
+
+<p class="sr-only" id="section-status" role="status" aria-live="polite"></p>
+
+<main class="wrap main" id="main" tabindex="-1">
+
+  <!-- ================= HOME ================= -->
+  <section class="panel" id="panel-home" role="tabpanel" aria-labelledby="tab-home">
+    <div class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow">AI+ Enhanced Edition</p>
+        <h1>Welcome to the Intelligent Sensing Lab</h1>
+        <p class="lede">A cutting-edge research center located in Hong Kong, dedicated to advancing sensor technology and its applications.</p>
+        <div class="hero-actions">
+          <button type="button" class="btn" data-goto="apply">Apply to join</button>
+          <button type="button" class="btn btn-ghost" data-goto="visit">Plan a visit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>Spanning over 50,000 square feet in Kowloon's High-Tech Park, our facility houses state-of-the-art laboratories and collaborative spaces where researchers develop next-generation sensing solutions.</p>
+    </div>
+
+    <h2 class="block-title">Three core research domains</h2>
+    <div class="grid grid-3">
+      <article class="card domain-card">
+        <p class="domain-index">01</p>
+        <h3>Optical Sensing</h3>
+        <p>Developing advanced imaging and spectroscopy systems.</p>
+      </article>
+      <article class="card domain-card">
+        <p class="domain-index">02</p>
+        <h3>Bio-Sensing</h3>
+        <p>Creating medical diagnostic and environmental monitoring tools.</p>
+      </article>
+      <article class="card domain-card">
+        <p class="domain-index">03</p>
+        <h3>Smart Sensing</h3>
+        <p>Integrating AI with sensor networks for intelligent systems.</p>
+      </article>
+    </div>
+
+    <div class="prose" style="margin-top: 26px;">
+      <p>With partnerships across 30+ countries and collaborations with leading institutions like MIT and ETH Zurich, we're pioneering sensing technologies that solve real-world challenges from healthcare to urban sustainability.</p>
+    </div>
+
+    <div class="split">
+      <div class="card">
+        <h2>Find us</h2>
+        <dl class="detail-list">
+          <dt>Address</dt>
+          <dd>Tat Chee Avenue,<br>Kowloon,<br>Hong Kong SAR</dd>
+          <dt>Telephone</dt>
+          <dd>(852) 9876 5432</dd>
+          <dt>Business hours</dt>
+          <dd>8:00 AM – 20:00</dd>
+        </dl>
+        <p class="small">The lab sits in Kowloon's High-Tech Park. Use the Contact section for departmental enquiries, or the Visit section to book a tour.</p>
+        <button type="button" class="btn btn-ghost" data-goto="contact">Contact the lab</button>
+      </div>
+      <figure class="map-card">
+        <img src="../cw3/images/location.png" alt="Map with a pin marking the Intelligent Sensing Lab in Kowloon, Hong Kong" width="760" height="570" loading="lazy" decoding="async">
+        <figcaption>Tat Chee Avenue, Kowloon, Hong Kong SAR.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="panel" id="panel-about" role="tabpanel" aria-labelledby="tab-about" hidden aria-hidden="true">
+    <div class="section-head">
+      <p class="eyebrow">About</p>
+      <h1>About the Intelligent Sensing Lab</h1>
+      <p class="lede">Founded in 2018, a premier research institution dedicated to advancing sensor technologies through interdisciplinary collaboration.</p>
+    </div>
+
+    <figure class="about-banner">
+      <img src="../cw3/images/about.png" alt="Render of a blue-lit Intelligent Sensing Lab workspace with sensor instrumentation" width="1100" height="619" loading="lazy" decoding="async">
+      <figcaption>A rendering of the lab's collaborative research environment.</figcaption>
+    </figure>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2>Our mission</h2>
+        <p>Our mission is to develop intelligent sensing solutions that address global challenges in healthcare, environmental monitoring, and industrial automation.</p>
+        <p>With over 120 researchers including 15 IEEE Fellows, we've pioneered breakthroughs such as:</p>
+        <ul class="clean-list">
+          <li>Nanoscale chemical sensors for disease detection</li>
+          <li>Self-powered environmental monitoring sensors</li>
+          <li>Real-time structural health monitoring systems</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h2>Specialized laboratories</h2>
+        <p>Our 50,000 sq ft facility in Kowloon High-Tech Park houses specialized laboratories:</p>
+        <ul class="clean-list">
+          <li><strong>Optical Sensing Lab</strong> — developing hyperspectral imaging systems</li>
+          <li><strong>Bio-Integration Lab</strong> — creating implantable medical sensors</li>
+          <li><strong>AI Sensor Fusion Lab</strong> — building intelligent sensing networks</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="block-title">Highlights of the Intelligent Sensing Lab</h2>
+    <div class="stats">
+      <div class="stat"><span class="stat-value">120+</span><span class="stat-label">Researchers, including 15 IEEE Fellows</span></div>
+      <div class="stat"><span class="stat-value">45+</span><span class="stat-label">Research projects</span></div>
+      <div class="stat"><span class="stat-value">85+</span><span class="stat-label">Patents filed</span></div>
+      <div class="stat"><span class="stat-value">30+</span><span class="stat-label">Industry partners</span></div>
+      <div class="stat"><span class="stat-value">15+</span><span class="stat-label">Commercial spin-offs</span></div>
+      <div class="stat"><span class="stat-value">40+</span><span class="stat-label">International collaborations</span></div>
+      <div class="stat"><span class="stat-value">200+</span><span class="stat-label">Peer-reviewed publications</span></div>
+      <div class="stat"><span class="stat-value">HK$150M</span><span class="stat-label">Research grants secured</span></div>
+    </div>
+
+    <div class="card">
+      <h2>What we work on</h2>
+      <p>The lab brings optical, biological and AI-driven sensing together under one roof. Work ranges from hyperspectral imaging and implantable medical sensors to intelligent sensing networks — with results measured in patents, publications and commercial spin-offs.</p>
+    </div>
+  </section>
+
+  <!-- ================= APPLY ================= -->
+  <section class="panel" id="panel-apply" role="tabpanel" aria-labelledby="tab-apply" hidden aria-hidden="true">
+    <div class="section-head">
+      <p class="eyebrow">Apply</p>
+      <h1>Join the lab</h1>
+      <p class="lede">Join our cutting-edge research teams in these focus areas.</p>
+    </div>
+
+    <div class="deadline">
+      <span class="deadline-label">Application deadline</span>
+      <strong class="deadline-value">15 October 2025</strong>
+    </div>
+
+    <div class="division">
+      <div class="division-head">
+        <h2>Optical Sensing Division</h2>
+        <p>Advanced imaging and spectroscopy systems.</p>
+      </div>
+      <div class="group-grid">
+        <article class="group-card"><img src="../cw3/images/hyperspectral.png" alt="Hyperspectral imaging" width="54" height="54" loading="lazy" decoding="async"><h3>Hyperspectral Imaging Group</h3></article>
+        <article class="group-card"><img src="../cw3/images/lidar.png" alt="LiDAR development" width="54" height="54" loading="lazy" decoding="async"><h3>LiDAR Development Team</h3></article>
+        <article class="group-card"><img src="../cw3/images/nanophotonics.png" alt="Nanophotonics research" width="54" height="54" loading="lazy" decoding="async"><h3>Nanophotonics Research</h3></article>
+      </div>
+    </div>
+
+    <div class="division">
+      <div class="division-head">
+        <h2>Bio-Sensing Division</h2>
+        <p>Medical diagnostic and environmental monitoring tools.</p>
+      </div>
+      <div class="group-grid">
+        <article class="group-card"><img src="../cw3/images/medical.png" alt="Medical diagnostics" width="54" height="54" loading="lazy" decoding="async"><h3>Medical Diagnostics Group</h3></article>
+        <article class="group-card"><img src="../cw3/images/environmental.png" alt="Environmental sensors" width="54" height="54" loading="lazy" decoding="async"><h3>Environmental Sensors Team</h3></article>
+        <article class="group-card"><img src="../cw3/images/wearable.png" alt="Wearable technology" width="54" height="54" loading="lazy" decoding="async"><h3>Wearable Technology Lab</h3></article>
+      </div>
+    </div>
+
+    <div class="division">
+      <div class="division-head">
+        <h2>Smart Sensing Division</h2>
+        <p>AI integrated with sensor networks for intelligent systems.</p>
+      </div>
+      <div class="group-grid">
+        <article class="group-card"><img src="../cw3/images/iot.png" alt="IoT sensor networks" width="54" height="54" loading="lazy" decoding="async"><h3>IoT Sensor Networks</h3></article>
+        <article class="group-card"><img src="../cw3/images/ai.png" alt="AI-enabled sensing" width="54" height="54" loading="lazy" decoding="async"><h3>AI-Enabled Sensing</h3></article>
+      </div>
+    </div>
+
+    <section class="card requirements">
+      <h2>Ranking your choices</h2>
+      <ul class="clean-list">
+        <li>Rank each chosen group from 1 to 10.</li>
+        <li>You cannot choose the same group twice, and two groups cannot share the same rank.</li>
+        <li>Do not leave a gap between your chosen ranks.</li>
+      </ul>
+    </section>
+
+    <div class="section-head">
+      <h2>Application form</h2>
+      <p class="lede">Tell us who you are and which group you would like to join.</p>
+    </div>
+
+    <div class="form-card">
+      <div class="error-summary" id="apply-errors" role="alert" tabindex="-1" hidden>
+        <h3>Please check the following</h3>
+        <ul></ul>
+      </div>
+
+      <form id="apply-form" novalidate>
+        <fieldset class="form-fieldset">
+          <legend>Personal details</legend>
+          <div class="form-grid">
+            <div class="field field-full">
+              <label for="apply-name">Full name <span class="req">(required)</span></label>
+              <input type="text" id="apply-name" name="name" autocomplete="name" placeholder="Your full name" aria-describedby="apply-name-error" required>
+              <p class="field-error" id="apply-name-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="apply-email">Email <span class="req">(required)</span></label>
+              <input type="email" id="apply-email" name="email" autocomplete="email" placeholder="name@example.com" aria-describedby="apply-email-error" required>
+              <p class="field-error" id="apply-email-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="apply-phone">Phone <span class="req">(required)</span></label>
+              <input type="tel" id="apply-phone" name="phone" autocomplete="tel" placeholder="(852) 9876 5432" aria-describedby="apply-phone-error" required>
+              <p class="field-error" id="apply-phone-error" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-fieldset">
+          <legend>Research preference</legend>
+          <div class="form-grid">
+            <div class="field">
+              <label for="apply-division">Division <span class="req">(required)</span></label>
+              <select id="apply-division" name="division" aria-describedby="apply-division-error" required>
+                <option value="">Select a division</option>
+                <option value="Optical Sensing Division">Optical Sensing Division</option>
+                <option value="Bio-Sensing Division">Bio-Sensing Division</option>
+                <option value="Smart Sensing Division">Smart Sensing Division</option>
+              </select>
+              <p class="field-error" id="apply-division-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="apply-group">Research group <span class="req">(required)</span></label>
+              <select id="apply-group" name="group" aria-describedby="apply-group-hint apply-group-error" disabled required>
+                <option value="">Select a division first</option>
+              </select>
+              <p class="hint" id="apply-group-hint">Choose a division to see its groups.</p>
+              <p class="field-error" id="apply-group-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="apply-rank">Rank of choice <span class="req">(required)</span></label>
+              <input type="number" id="apply-rank" name="rank" min="1" max="10" step="1" inputmode="numeric" placeholder="1–10" aria-describedby="apply-rank-hint apply-rank-error" required>
+              <p class="hint" id="apply-rank-hint">A whole number from 1 to 10.</p>
+              <p class="field-error" id="apply-rank-error" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" class="btn">Submit application</button>
+        </div>
+        <p class="form-note">This enhanced edition validates the form in your browser only — nothing is sent anywhere.</p>
+      </form>
+
+      <div class="success-panel" id="apply-success" tabindex="-1" hidden>
+        <div class="success-head">
+          <span class="success-icon" aria-hidden="true">✓</span>
+          <div>
+            <h3>Application received</h3>
+            <p>Your details passed validation. This demo runs entirely in your browser — no data was sent to the lab.</p>
+          </div>
+        </div>
+        <dl class="summary-list" id="apply-summary"></dl>
+        <div class="success-actions">
+          <button type="button" class="btn btn-ghost" data-edit="apply">Edit application</button>
+          <button type="button" class="btn" data-goto="information">Explore the research</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VISIT ================= -->
+  <section class="panel" id="panel-visit" role="tabpanel" aria-labelledby="tab-visit" hidden aria-hidden="true">
+    <div class="section-head">
+      <p class="eyebrow">Visit</p>
+      <h1>Visit the lab</h1>
+      <p class="lede">Visit Intelligent Sensing Lab to witness groundbreaking research in sensor technology.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2>Our facility features</h2>
+        <ul class="clean-list">
+          <li>Cleanroom for nanoscale sensor fabrication</li>
+          <li>Environmental testing chambers</li>
+          <li>Sensor calibration and validation center</li>
+          <li>Prototyping workshop</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h2>During your tour, you'll</h2>
+        <ul class="clean-list">
+          <li>See live demonstrations of our latest sensors</li>
+          <li>Meet leading researchers in optical, bio, and smart sensing</li>
+          <li>Learn about career and collaboration opportunities</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="block-title">Location and directions</h2>
+    <div class="split" style="margin-top: 0;">
+      <div class="card">
+        <dl class="detail-list">
+          <dt>Address</dt>
+          <dd>Tat Chee Avenue,<br>Kowloon,<br>Hong Kong SAR</dd>
+          <dt>Telephone</dt>
+          <dd>(852) 9876 5432</dd>
+          <dt>Email</dt>
+          <dd>visit@intelligentsensinglab.edu.hk</dd>
+          <dt>Opening hours</dt>
+          <dd>8:00 AM – 20:00</dd>
+        </dl>
+        <p class="small">The lab is in Kowloon's High-Tech Park. The pin on the map marks its location on Tat Chee Avenue; the surrounding streets are shown for orientation.</p>
+      </div>
+      <figure class="map-card">
+        <img src="../cw3/images/location.png" alt="Map with a pin marking the Intelligent Sensing Lab on Tat Chee Avenue" width="760" height="570" loading="lazy" decoding="async">
+        <figcaption>Tat Chee Avenue, Kowloon, Hong Kong SAR.</figcaption>
+      </figure>
+    </div>
+
+    <div class="section-head" style="margin-top: 34px;">
+      <h2>Annual Open Day registration</h2>
+      <p class="lede">Choose a date and time for your visit, and tell us how many people will attend.</p>
+    </div>
+
+    <div class="form-card">
+      <div class="error-summary" id="visit-errors" role="alert" tabindex="-1" hidden>
+        <h3>Please check the following</h3>
+        <ul></ul>
+      </div>
+
+      <form id="visit-form" novalidate>
+        <fieldset class="form-fieldset">
+          <legend>Booking information</legend>
+          <div class="form-grid">
+            <div class="field">
+              <label for="visit-date">Date <span class="req">(required)</span></label>
+              <input type="date" id="visit-date" name="date" aria-describedby="visit-date-error" required>
+              <p class="field-error" id="visit-date-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="visit-time">Time <span class="req">(required)</span></label>
+              <select id="visit-time" name="time" aria-describedby="visit-time-error" required>
+                <option value="">Select a time</option>
+                <option value="09:00-10:00">09:00 – 10:00</option>
+                <option value="10:00-11:00">10:00 – 11:00</option>
+                <option value="14:00-15:00">14:00 – 15:00</option>
+                <option value="15:00-16:00">15:00 – 16:00</option>
+                <option value="16:00-17:00">16:00 – 17:00</option>
+              </select>
+              <p class="field-error" id="visit-time-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="visit-visitors">Number of visitors <span class="req">(required)</span></label>
+              <input type="number" id="visit-visitors" name="visitors" min="1" max="20" step="1" inputmode="numeric" placeholder="1–20" aria-describedby="visit-visitors-hint visit-visitors-error" required>
+              <p class="hint" id="visit-visitors-hint">Between 1 and 20 visitors.</p>
+              <p class="field-error" id="visit-visitors-error" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" class="btn">Request booking</button>
+        </div>
+        <p class="form-note">This enhanced edition validates the form in your browser only — nothing is sent anywhere.</p>
+      </form>
+
+      <div class="success-panel" id="visit-success" tabindex="-1" hidden>
+        <div class="success-head">
+          <span class="success-icon" aria-hidden="true">✓</span>
+          <div>
+            <h3>Booking request received</h3>
+            <p>Your booking details passed validation. This demo runs entirely in your browser — no request was sent to the lab.</p>
+          </div>
+        </div>
+        <dl class="summary-list" id="visit-summary"></dl>
+        <div class="success-actions">
+          <button type="button" class="btn btn-ghost" data-edit="visit">Edit booking</button>
+          <button type="button" class="btn" data-goto="contact">Contact the lab</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= INFORMATION ================= -->
+  <section class="panel" id="panel-information" role="tabpanel" aria-labelledby="tab-information" hidden aria-hidden="true">
+    <div class="section-head">
+      <p class="eyebrow">Information</p>
+      <h1>Program</h1>
+      <p class="lede">Openings across the three research divisions, with the stipend bands published for each focus area.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <section class="card media-card">
+        <video controls preload="none" playsinline width="640" height="360" data-remote aria-label="Recruitment video for the Optical Sensing Division">
+          <source src="https://personal.cs.cityu.edu.hk/~cs2204/2025/video/video1.mp4" type="video/mp4">
+          <source src="https://personal.cs.cityu.edu.hk/~cs2204/2025/video/video1.webm" type="video/webm">
+          Your browser does not support embedded video.
+        </video>
+        <div class="media-body">
+          <h3>Optical Sensing Division</h3>
+          <p>8 openings for PhD researchers. Develop next-gen imaging systems.</p>
+          <p class="media-note">Video hosted on the CityU course server.</p>
+        </div>
+        <p class="video-fallback" hidden>The video could not be loaded. It is hosted on the CityU course server and may be unavailable offline.</p>
+      </section>
+
+      <section class="card media-card">
+        <video controls preload="none" playsinline width="640" height="360" data-remote aria-label="Recruitment video for the Bio-Sensing Division">
+          <source src="https://personal.cs.cityu.edu.hk/~cs2204/2025/video/video2.mp4" type="video/mp4">
+          <source src="https://personal.cs.cityu.edu.hk/~cs2204/2025/video/video2.webm" type="video/webm">
+          Your browser does not support embedded video.
+        </video>
+        <div class="media-body">
+          <h3>Bio-Sensing Division</h3>
+          <p>5 internship positions in medical sensor development for researchers.</p>
+          <p class="media-note">Video hosted on the CityU course server.</p>
+        </div>
+        <p class="video-fallback" hidden>The video could not be loaded. It is hosted on the CityU course server and may be unavailable offline.</p>
+      </section>
+    </div>
+
+    <h2 class="block-title">Research areas</h2>
+    <div class="grid grid-4">
+      <article class="card research-card">
+        <img src="../cw3/images/hyperspectral.png" alt="Hyperspectral imaging research" width="260" height="195" loading="lazy" decoding="async">
+        <div class="research-body">
+          <p class="research-meta">Optical Sensing</p>
+          <h3>Hyperspectral Imaging</h3>
+          <p>Part of the Optical Sensing Division, which develops advanced imaging and spectroscopy systems.</p>
+          <p class="research-foot">4 open positions · HKD 18,000/month</p>
+        </div>
+      </article>
+      <article class="card research-card">
+        <img src="../cw3/images/lidar.png" alt="LiDAR development research" width="260" height="195" loading="lazy" decoding="async">
+        <div class="research-body">
+          <p class="research-meta">Optical Sensing</p>
+          <h3>LiDAR Development</h3>
+          <p>Part of the Optical Sensing Division, which develops advanced imaging and spectroscopy systems.</p>
+          <p class="research-foot">3 open positions · HKD 16,500/month</p>
+        </div>
+      </article>
+      <article class="card research-card">
+        <img src="../cw3/images/nanophotonics.png" alt="Nanophotonics research" width="260" height="195" loading="lazy" decoding="async">
+        <div class="research-body">
+          <p class="research-meta">Optical Sensing</p>
+          <h3>Nanophotonics Research</h3>
+          <p>Part of the Optical Sensing Division, which develops advanced imaging and spectroscopy systems.</p>
+          <p class="research-foot">Open to ranked applications</p>
+        </div>
+      </article>
+      <article class="card research-card">
+        <img src="../cw3/images/medical.png" alt="Medical diagnostics research" width="260" height="195" loading="lazy" decoding="async">
+        <div class="research-body">
+          <p class="research-meta">Bio-Sensing</p>
+          <h3>Medical Diagnostics</h3>
+          <p>Part of the Bio-Sensing Division, which creates medical diagnostic and environmental monitoring tools.</p>
+          <p class="research-foot">5 open positions · HKD 17,000/month</p>
+        </div>
+      </article>
+      <article class="card research-card">
+        <img src="../cw3/images/environmental.png" alt="Environmental sensors research" width="260" height="195" loading="lazy" decoding="async">
+        <div class="research-body">
+          <p class="research-meta">Bio-Sensing</p>
+          <h3>Environmental Sensors</h3>
+          <p>Part of the Bio-Sensing Division, which creates medical diagnostic and environmental monitoring tools.</p>
+          <p class="research-foot">3 open positions · HKD 15,500/month</p>
+        </div>
+      </article>
+      <article class="card research-card">
+        <img src="../cw3/images/wearable.png" alt="Wearable technology research" width="260" height="195" loading="lazy" decoding="async">
+        <div class="research-body">
+          <p class="research-meta">Bio-Sensing</p>
+          <h3>Wearable Technology</h3>
+          <p>Part of the Bio-Sensing Division, which creates medical diagnostic and environmental monitoring tools.</p>
+          <p class="research-foot">Open to ranked applications</p>
+        </div>
+      </article>
+      <article class="card research-card">
+        <img src="../cw3/images/iot.png" alt="IoT sensor networks research" width="260" height="195" loading="lazy" decoding="async">
+        <div class="research-body">
+          <p class="research-meta">Smart Sensing</p>
+          <h3>IoT Sensor Networks</h3>
+          <p>Part of the Smart Sensing Division, which integrates AI with sensor networks for intelligent systems.</p>
+          <p class="research-foot">6 open positions · HKD 16,000/month</p>
+        </div>
+      </article>
+      <article class="card research-card">
+        <img src="../cw3/images/ai.png" alt="AI-enabled sensing research" width="260" height="195" loading="lazy" decoding="async">
+        <div class="research-body">
+          <p class="research-meta">Smart Sensing</p>
+          <h3>AI-Enabled Sensing</h3>
+          <p>Part of the Smart Sensing Division, which integrates AI with sensor networks for intelligent systems.</p>
+          <p class="research-foot">4 open positions · HKD 17,500/month</p>
+        </div>
+      </article>
+    </div>
+
+    <h2 class="block-title">Current openings and stipends</h2>
+    <div class="table-wrap">
+      <table>
+        <caption>Positions listed by research division</caption>
+        <thead>
+          <tr>
+            <th scope="col">Research division</th>
+            <th scope="col">Focus area</th>
+            <th scope="col">Open positions</th>
+            <th scope="col">Stipend (HKD/month)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Optical Sensing</td><td>Hyperspectral Imaging</td><td>4</td><td>18,000</td></tr>
+          <tr><td>Optical Sensing</td><td>LiDAR Development</td><td>3</td><td>16,500</td></tr>
+          <tr><td>Bio-Sensing</td><td>Medical Diagnostics</td><td>5</td><td>17,000</td></tr>
+          <tr><td>Bio-Sensing</td><td>Environmental Sensors</td><td>3</td><td>15,500</td></tr>
+          <tr><td>Smart Sensing</td><td>IoT Sensor Networks</td><td>6</td><td>16,000</td></tr>
+          <tr><td>Smart Sensing</td><td>AI-Enabled Sensing</td><td>4</td><td>17,500</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="panel" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" hidden aria-hidden="true">
+    <div class="section-head">
+      <p class="eyebrow">Contact</p>
+      <h1>Contact the lab</h1>
+      <p class="lede">Reach the right department, or send a message using the form below.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Department contacts</caption>
+        <thead>
+          <tr>
+            <th scope="col">Department</th>
+            <th scope="col">Address</th>
+            <th scope="col">Tel</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Main Laboratory</td>
+            <td>Tat Chee Avenue, Kowloon, Hong Kong SAR</td>
+            <td>(852) 9876 5432</td>
+            <td class="mono">main@intelligentsensinglab.edu.hk</td>
+          </tr>
+          <tr>
+            <td>Research Partnerships</td>
+            <td>Tat Chee Avenue, Kowloon, Hong Kong SAR</td>
+            <td>(852) 9876 5433</td>
+            <td class="mono">partnerships@intelligentsensinglab.edu.hk</td>
+          </tr>
+          <tr>
+            <td>Internship Program</td>
+            <td>Tat Chee Avenue, Kowloon, Hong Kong SAR</td>
+            <td>(852) 9876 5434</td>
+            <td class="mono">internships@intelligentsensinglab.edu.hk</td>
+          </tr>
+          <tr>
+            <td>General Inquiries</td>
+            <td>Tat Chee Avenue, Kowloon, Hong Kong SAR</td>
+            <td>(852) 9876 5435</td>
+            <td class="mono">info@intelligentsensinglab.edu.hk</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-head" style="margin-top: 34px;">
+      <h2>Send a message</h2>
+      <p class="lede">Choose a department and tell us how we can help.</p>
+    </div>
+
+    <div class="form-card">
+      <div class="error-summary" id="contact-errors" role="alert" tabindex="-1" hidden>
+        <h3>Please check the following</h3>
+        <ul></ul>
+      </div>
+
+      <form id="contact-form" novalidate>
+        <div class="form-grid">
+          <div class="field">
+            <label for="contact-name">Full name <span class="req">(required)</span></label>
+            <input type="text" id="contact-name" name="name" autocomplete="name" placeholder="Your full name" aria-describedby="contact-name-error" required>
+            <p class="field-error" id="contact-name-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="contact-email">Email <span class="req">(required)</span></label>
+            <input type="email" id="contact-email" name="email" autocomplete="email" placeholder="name@example.com" aria-describedby="contact-email-error" required>
+            <p class="field-error" id="contact-email-error" hidden></p>
+          </div>
+          <div class="field field-full">
+            <label for="contact-department">Department <span class="req">(required)</span></label>
+            <select id="contact-department" name="department" aria-describedby="contact-department-error" required>
+              <option value="">Select a department</option>
+              <option value="Main Laboratory">Main Laboratory</option>
+              <option value="Research Partnerships">Research Partnerships</option>
+              <option value="Internship Program">Internship Program</option>
+              <option value="General Inquiries">General Inquiries</option>
+            </select>
+            <p class="field-error" id="contact-department-error" hidden></p>
+          </div>
+          <div class="field field-full">
+            <label for="contact-message">Message <span class="req">(required)</span></label>
+            <textarea id="contact-message" name="message" rows="5" placeholder="How can we help?" aria-describedby="contact-message-hint contact-message-error" required></textarea>
+            <p class="hint" id="contact-message-hint">At least 10 characters.</p>
+            <p class="field-error" id="contact-message-error" hidden></p>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn">Send message</button>
+        </div>
+        <p class="form-note">This enhanced edition validates the form in your browser only — nothing is sent anywhere.</p>
+      </form>
+
+      <div class="success-panel" id="contact-success" tabindex="-1" hidden>
+        <div class="success-head">
+          <span class="success-icon" aria-hidden="true">✓</span>
+          <div>
+            <h3>Message recorded</h3>
+            <p>Your message passed validation. This demo runs entirely in your browser — no message was sent.</p>
+          </div>
+        </div>
+        <dl class="summary-list" id="contact-summary"></dl>
+        <div class="success-actions">
+          <button type="button" class="btn btn-ghost" data-edit="contact">Edit message</button>
+          <button type="button" class="btn" data-goto="home">Back to home</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="logo-plate footer-plate"><img class="footer-logo" src="../cw3/images/footer_logo.png" alt="" width="144" height="34" loading="lazy" decoding="async"></span>
+      <p class="footer-line">Enhanced edition, built with AI assistance.</p>
+      <p class="footer-line">Original design by LIN Jingkai.</p>
+    </div>
+    <nav class="footer-links" aria-label="Coursework versions">
+      <a href="../index.html">All coursework versions</a>
+      <a href="../cw3/html/index.html">CW3 original</a>
+    </nav>
+    <p class="footer-note">Content reproduced from the CW3 site; dates and figures reflect that site. Images and text from the original coursework.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var root = document.documentElement;
+  var THEME_KEY = 'isl-ai-plus-theme';
+  var themeButton = document.getElementById('theme-toggle');
+
+  /* ---------------------------------------------------------------
+     Theme: data-theme on <html>, persisted, light by default,
+     prefers-color-scheme only used on the first visit.
+     --------------------------------------------------------------- */
+  function readTheme() {
+    try {
+      var stored = window.localStorage.getItem(THEME_KEY);
+      if (stored === 'light' || stored === 'dark') return stored;
+    } catch (error) { /* storage unavailable */ }
+    try {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+    } catch (error) { /* media query unavailable */ }
+    return 'light';
+  }
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    if (!themeButton) return;
+    var isDark = theme === 'dark';
+    var label = isDark ? 'Switch to light theme' : 'Switch to dark theme';
+    themeButton.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    themeButton.setAttribute('aria-label', label);
+    themeButton.setAttribute('title', label);
+  }
+
+  applyTheme(readTheme());
+
+  if (themeButton) {
+    themeButton.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      try { window.localStorage.setItem(THEME_KEY, next); } catch (error) { /* ignore */ }
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     Tabs: accessible tablist, roving tabindex, arrow keys,
+     hidden/aria-hidden panels, hash routing with history support.
+     --------------------------------------------------------------- */
+  var tablist = document.getElementById('section-tabs');
+  var tabs = tablist ? Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]')) : [];
+  var panels = Array.prototype.slice.call(document.querySelectorAll('[role="tabpanel"]'));
+  var status = document.getElementById('section-status');
+  var currentSection = null;
+
+  function tabFor(id) { return document.getElementById('tab-' + id); }
+  function panelFor(id) { return document.getElementById('panel-' + id); }
+  function isSection(id) { return !!(id && tabFor(id) && panelFor(id)); }
+
+  function showSection(id) {
+    if (!isSection(id) || id === currentSection) return;
+    var activeTab = tabFor(id);
+    tabs.forEach(function (tab) {
+      var isActive = tab === activeTab;
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      tab.tabIndex = isActive ? 0 : -1;
+      tab.classList.toggle('is-active', isActive);
+    });
+    panels.forEach(function (panel) {
+      var isActive = panel.id === 'panel-' + id;
+      panel.hidden = !isActive;
+      panel.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+    });
+    currentSection = id;
+    if (status) status.textContent = activeTab.textContent + ' section shown';
+    if (tablist && activeTab && tablist.scrollWidth > tablist.clientWidth) {
+      var listRect = tablist.getBoundingClientRect();
+      var tabRect = activeTab.getBoundingClientRect();
+      var delta = 0;
+      if (tabRect.left < listRect.left) delta = tabRect.left - listRect.left - 12;
+      else if (tabRect.right > listRect.right) delta = tabRect.right - listRect.right + 12;
+      if (delta !== 0) tablist.scrollLeft += delta;
+    }
+  }
+
+  function writeHash(id, replace) {
+    var target = '#' + id;
+    if (window.location.hash === target) return;
+    try {
+      if (replace && window.history.replaceState) {
+        window.history.replaceState(null, '', target);
+      } else if (window.history.pushState) {
+        window.history.pushState(null, '', target);
+      } else {
+        window.location.hash = id;
+      }
+    } catch (error) {
+      /* history.pushState can be blocked on file:// origins */
+      try {
+        if (replace) window.location.replace(target);
+        else window.location.hash = id;
+      } catch (ignored) { /* no fragment support */ }
+    }
+  }
+
+  function selectSection(id, options) {
+    options = options || {};
+    if (!isSection(id)) id = 'home';
+    showSection(id);
+    if (options.updateHash !== false) writeHash(id, !!options.replace);
+    if (options.scroll) {
+      try { window.scrollTo(0, 0); } catch (error) { /* ignore */ }
+    }
+    if (options.focusTab) {
+      var tab = tabFor(id);
+      if (tab) tab.focus();
+    }
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      selectSection(tab.getAttribute('data-tab'), { scroll: true });
+    });
+  });
+
+  if (tablist) {
+    tablist.addEventListener('keydown', function (event) {
+      var index = tabs.indexOf(document.activeElement);
+      if (index === -1) return;
+      var nextIndex = null;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        nextIndex = (index + 1) % tabs.length;
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        nextIndex = (index - 1 + tabs.length) % tabs.length;
+      } else if (event.key === 'Home') {
+        nextIndex = 0;
+      } else if (event.key === 'End') {
+        nextIndex = tabs.length - 1;
+      }
+      if (nextIndex === null) return;
+      event.preventDefault();
+      var nextTab = tabs[nextIndex];
+      selectSection(nextTab.getAttribute('data-tab'), { scroll: true, focusTab: true });
+      if (nextTab.scrollIntoView) {
+        try { nextTab.scrollIntoView({ block: 'nearest', inline: 'center' }); }
+        catch (error) { nextTab.scrollIntoView(false); }
+      }
+    });
+  }
+
+  /* In-page triggers (header brand, hero buttons, success actions). */
+  document.addEventListener('click', function (event) {
+    var target = event.target;
+    var trigger = target && target.closest ? target.closest('[data-goto]') : null;
+    if (!trigger) return;
+    var id = trigger.getAttribute('data-goto');
+    if (!isSection(id)) return;
+    event.preventDefault();
+    selectSection(id, { scroll: true });
+    var tab = tabFor(id);
+    if (tab) tab.focus();
+  });
+
+  /* Deep links + back/forward. */
+  var initialId = window.location.hash.replace(/^#/, '');
+  if (isSection(initialId)) {
+    selectSection(initialId, { updateHash: false });
+  } else {
+    selectSection('home', { replace: true });
+  }
+
+  window.addEventListener('hashchange', function () {
+    var id = window.location.hash.replace(/^#/, '');
+    if (isSection(id)) {
+      showSection(id);
+    } else {
+      showSection('home');
+      writeHash('home', true);
+    }
+  });
+
+  /* Skip link must not become an unknown hash. */
+  var skipLink = document.querySelector('.skip-link');
+  var main = document.getElementById('main');
+  if (skipLink && main) {
+    skipLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      main.focus();
+      try { main.scrollIntoView({ block: 'start' }); } catch (error) { /* ignore */ }
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     Forms: shared inline errors, error summary, success panel.
+     --------------------------------------------------------------- */
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var PHONE_RE = /^\+?[0-9]{7,15}$/;
+
+  function fieldValue(id) {
+    var field = document.getElementById(id);
+    return field ? field.value.trim() : '';
+  }
+
+  function setFieldError(field, message) {
+    if (!field) return;
+    var error = document.getElementById(field.id + '-error');
+    if (message) {
+      if (error) {
+        error.textContent = message;
+        error.hidden = false;
+      }
+      field.setAttribute('aria-invalid', 'true');
+    } else {
+      if (error) {
+        error.textContent = '';
+        error.hidden = true;
+      }
+      field.removeAttribute('aria-invalid');
+    }
+  }
+
+  function isValidPhone(value) {
+    return PHONE_RE.test(value.replace(/[\s().-]/g, ''));
+  }
+
+  function parseDateOnly(value) {
+    var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (!match) return null;
+    var year = Number(match[1]);
+    var month = Number(match[2]);
+    var day = Number(match[3]);
+    var date = new Date(year, month - 1, day);
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
+    return date;
+  }
+
+  function todayStart() {
+    var now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return now;
+  }
+
+  function selectedOptionText(id) {
+    var field = document.getElementById(id);
+    if (!field || field.selectedIndex < 0) return '';
+    return field.options[field.selectedIndex].textContent.trim();
+  }
+
+  function setSummary(list, rows) {
+    if (!list) return;
+    list.textContent = '';
+    rows.forEach(function (row) {
+      var dt = document.createElement('dt');
+      dt.textContent = row[0];
+      var dd = document.createElement('dd');
+      dd.textContent = row[1];
+      if (row[0] === 'Message') dd.className = 'pre-wrap';
+      list.appendChild(dt);
+      list.appendChild(dd);
+    });
+  }
+
+  function setupForm(config) {
+    var form = document.getElementById(config.formId);
+    var summary = document.getElementById(config.summaryId);
+    var success = document.getElementById(config.successId);
+    if (!form || !summary || !success) return;
+    var summaryList = summary.querySelector('ul');
+
+    function clearErrors() {
+      Object.keys(config.validators).forEach(function (id) {
+        setFieldError(document.getElementById(id), null);
+      });
+    }
+
+    function showErrors(errors) {
+      summaryList.textContent = '';
+      errors.forEach(function (error) {
+        var item = document.createElement('li');
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'error-link';
+        button.textContent = error.message;
+        button.addEventListener('click', function () {
+          var field = document.getElementById(error.id);
+          if (field) field.focus();
+        });
+        item.appendChild(button);
+        summaryList.appendChild(item);
+      });
+      summary.hidden = false;
+      summary.focus();
+    }
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var errors = [];
+      Object.keys(config.validators).forEach(function (id) {
+        var message = config.validators[id]();
+        if (message) errors.push({ id: id, message: message });
+      });
+      clearErrors();
+      if (errors.length) {
+        errors.forEach(function (error) {
+          setFieldError(document.getElementById(error.id), error.message);
+        });
+        showErrors(errors);
+        return;
+      }
+      summary.hidden = true;
+      config.render();
+      form.hidden = true;
+      success.hidden = false;
+      success.focus();
+      try { success.scrollIntoView({ block: 'center' }); } catch (error) { /* ignore */ }
+    });
+
+    /* Clear a field's error as soon as it becomes valid again. */
+    Object.keys(config.validators).forEach(function (id) {
+      var field = document.getElementById(id);
+      if (!field) return;
+      function revalidate() {
+        if (field.getAttribute('aria-invalid') !== 'true') return;
+        if (!config.validators[id]()) setFieldError(field, null);
+      }
+      field.addEventListener('input', revalidate);
+      field.addEventListener('change', revalidate);
+    });
+
+    Array.prototype.slice.call(document.querySelectorAll('[data-edit="' + config.key + '"]')).forEach(function (button) {
+      button.addEventListener('click', function () {
+        success.hidden = true;
+        form.hidden = false;
+        var first = form.querySelector('input, select, textarea');
+        if (first) first.focus();
+        try { form.scrollIntoView({ block: 'start' }); } catch (error) { /* ignore */ }
+      });
+    });
+  }
+
+  /* ----- Apply: dependent division/group select ----- */
+  var GROUPS = {
+    'Optical Sensing Division': ['Hyperspectral Imaging Group', 'LiDAR Development Team', 'Nanophotonics Research'],
+    'Bio-Sensing Division': ['Medical Diagnostics Group', 'Environmental Sensors Team', 'Wearable Technology Lab'],
+    'Smart Sensing Division': ['IoT Sensor Networks', 'AI-Enabled Sensing']
+  };
+
+  var divisionSelect = document.getElementById('apply-division');
+  var groupSelect = document.getElementById('apply-group');
+
+  function fillGroups() {
+    if (!divisionSelect || !groupSelect) return;
+    var groups = GROUPS[divisionSelect.value] || [];
+    groupSelect.textContent = '';
+    var placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = groups.length ? 'Select a research group' : 'Select a division first';
+    groupSelect.appendChild(placeholder);
+    groups.forEach(function (name) {
+      var option = document.createElement('option');
+      option.value = name;
+      option.textContent = name;
+      groupSelect.appendChild(option);
+    });
+    groupSelect.disabled = groups.length === 0;
+    setFieldError(groupSelect, null);
+  }
+
+  if (divisionSelect && groupSelect) {
+    divisionSelect.addEventListener('change', fillGroups);
+    fillGroups();
+  }
+
+  setupForm({
+    key: 'apply',
+    formId: 'apply-form',
+    summaryId: 'apply-errors',
+    successId: 'apply-success',
+    validators: {
+      'apply-name': function () {
+        var value = fieldValue('apply-name');
+        if (!value) return 'Enter your full name.';
+        return value.length >= 2 ? null : 'Your name must be at least 2 characters long.';
+      },
+      'apply-email': function () {
+        var value = fieldValue('apply-email');
+        if (!value) return 'Enter your email address.';
+        return EMAIL_RE.test(value) ? null : 'Enter a valid email address, for example name@example.com.';
+      },
+      'apply-phone': function () {
+        var value = fieldValue('apply-phone');
+        if (!value) return 'Enter your phone number.';
+        return isValidPhone(value) ? null : 'Enter a valid phone number with 7–15 digits, for example (852) 9876 5432.';
+      },
+      'apply-division': function () {
+        return fieldValue('apply-division') ? null : 'Choose a research division.';
+      },
+      'apply-group': function () {
+        if (!fieldValue('apply-division')) return null;
+        return fieldValue('apply-group') ? null : 'Choose a research group.';
+      },
+      'apply-rank': function () {
+        var value = fieldValue('apply-rank');
+        if (!value) return 'Enter the rank of your choice.';
+        return /^(?:10|[1-9])$/.test(value) ? null : 'Rank must be a whole number from 1 to 10.';
+      }
+    },
+    render: function () {
+      setSummary(document.getElementById('apply-summary'), [
+        ['Name', fieldValue('apply-name')],
+        ['Email', fieldValue('apply-email')],
+        ['Phone', fieldValue('apply-phone')],
+        ['Division', fieldValue('apply-division')],
+        ['Research group', fieldValue('apply-group')],
+        ['Rank of choice', fieldValue('apply-rank')],
+        ['Application deadline', '15 October 2025']
+      ]);
+    }
+  });
+
+  /* ----- Visit ----- */
+  var visitDate = document.getElementById('visit-date');
+  if (visitDate) {
+    var today = todayStart();
+    var month = String(today.getMonth() + 1);
+    var day = String(today.getDate());
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    visitDate.min = today.getFullYear() + '-' + month + '-' + day;
+  }
+
+  function formatVisitDate(value) {
+    var date = parseDateOnly(value);
+    if (!date) return value;
+    try {
+      return date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (error) {
+      return value;
+    }
+  }
+
+  setupForm({
+    key: 'visit',
+    formId: 'visit-form',
+    summaryId: 'visit-errors',
+    successId: 'visit-success',
+    validators: {
+      'visit-date': function () {
+        var value = fieldValue('visit-date');
+        if (!value) return 'Choose a visit date.';
+        var date = parseDateOnly(value);
+        if (!date) return 'Choose a valid visit date.';
+        return date < todayStart() ? 'The visit date cannot be in the past.' : null;
+      },
+      'visit-time': function () {
+        return fieldValue('visit-time') ? null : 'Choose a time for your visit.';
+      },
+      'visit-visitors': function () {
+        var value = fieldValue('visit-visitors');
+        if (!value) return 'Enter the number of visitors.';
+        if (!/^\d+$/.test(value)) return 'Enter a whole number of visitors.';
+        var count = Number(value);
+        return count >= 1 && count <= 20 ? null : 'The number of visitors must be between 1 and 20.';
+      }
+    },
+    render: function () {
+      setSummary(document.getElementById('visit-summary'), [
+        ['Date', formatVisitDate(fieldValue('visit-date'))],
+        ['Time', selectedOptionText('visit-time')],
+        ['Visitors', fieldValue('visit-visitors')],
+        ['Opening hours', '8:00 AM – 20:00']
+      ]);
+    }
+  });
+
+  /* ----- Contact ----- */
+  setupForm({
+    key: 'contact',
+    formId: 'contact-form',
+    summaryId: 'contact-errors',
+    successId: 'contact-success',
+    validators: {
+      'contact-name': function () {
+        var value = fieldValue('contact-name');
+        if (!value) return 'Enter your full name.';
+        return value.length >= 2 ? null : 'Your name must be at least 2 characters long.';
+      },
+      'contact-email': function () {
+        var value = fieldValue('contact-email');
+        if (!value) return 'Enter your email address.';
+        return EMAIL_RE.test(value) ? null : 'Enter a valid email address, for example name@example.com.';
+      },
+      'contact-department': function () {
+        return fieldValue('contact-department') ? null : 'Choose a department.';
+      },
+      'contact-message': function () {
+        var value = fieldValue('contact-message');
+        if (!value) return 'Write a message.';
+        return value.length >= 10 ? null : 'Your message must be at least 10 characters long.';
+      }
+    },
+    render: function () {
+      setSummary(document.getElementById('contact-summary'), [
+        ['Name', fieldValue('contact-name')],
+        ['Email', fieldValue('contact-email')],
+        ['Department', fieldValue('contact-department')],
+        ['Message', fieldValue('contact-message')]
+      ]);
+    }
+  });
+
+  /* ---------------------------------------------------------------
+     Optional external videos: fail quietly with an inline note.
+     --------------------------------------------------------------- */
+  Array.prototype.slice.call(document.querySelectorAll('video[data-remote]')).forEach(function (video) {
+    var card = video.closest ? video.closest('.media-card') : null;
+    var fallback = card ? card.querySelector('.video-fallback') : null;
+    var sources = Array.prototype.slice.call(video.querySelectorAll('source'));
+    var failed = false;
+    function fail() {
+      if (failed) return;
+      failed = true;
+      if (fallback) fallback.hidden = false;
+    }
+    video.addEventListener('error', fail);
+    sources.forEach(function (source, index) {
+      source.addEventListener('error', function () {
+        if (index === sources.length - 1) fail();
+      });
+    });
+  });
+}());
+</script>
+</body>
+</html>

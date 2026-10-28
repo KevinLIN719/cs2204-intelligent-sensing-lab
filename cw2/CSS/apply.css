@@ -1,0 +1,75 @@
+.h2_style{
+        text-align: center;
+}
+table{
+    border: 2px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    th{
+        border-right: 2px solid black;
+        border-bottom: 2px solid black;
+        background-color: aqua;
+    }
+    td:hover{
+        background-color: yellow;
+    }
+    td{
+        border-right: 2px solid black;
+        border-bottom: 2px solid black;
+    }
+    tr:nth-child(even){
+        background-color: white;
+    }
+    tr:nth-child(odd){
+        background-color: skyblue;
+    }
+}
+.Apply_Block{
+    margin: 0 10px;
+    overflow: hidden;
+    h2{
+        text-align: left;
+        width: 100%;
+    }
+    h3{
+        border: 2px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        background-color: aqua;
+        margin: 2px;
+    }
+    .division-wrapper{
+        float: left;
+        width: 33.3%;
+        box-sizing: border-box;
+    }
+    .division-forms{
+        display: none;
+    }    
+}
+.choice{
+    clear: both;
+    margin: 0 10px;
+}
+
+.Optical_Sensing_Division:hover,
+.Bio-Sensing_Division:hover,
+.Smart_Sensing_Division:hover {
+    .division-forms{
+        display: block;
+        display: flex;
+        width: 100%;
+        form{
+            padding: 10px;
+            width: 33.3%;
+            box-sizing: border-box;
+            max-height: 100%;
+        }
+        img{
+            max-width: 100%;
+        }
+    }
+    h3{
+        background-color: white;
+    }
+}

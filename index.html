@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CS2204 Intelligent Sensing Lab coursework: three preserved website iterations and an AI-enhanced single-page edition.">
+<title>CS2204 Intelligent Sensing Lab Coursework</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #17202a;
+    background: #f4f7f9;
+    -webkit-font-smoothing: antialiased;
+  }
+  main {
+    width: min(1080px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 64px 0 48px;
+  }
+  header { margin-bottom: 32px; }
+  h1 {
+    margin: 0 0 12px;
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.05;
+  }
+  header p {
+    max-width: 720px;
+    margin: 0;
+    color: #4c5b66;
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .card {
+    display: block;
+    min-height: 180px;
+    padding: 16px 16px 20px;
+    color: inherit;
+    text-decoration: none;
+    background: #ffffff;
+    border: 1px solid #d8e1e8;
+    border-radius: 8px;
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  }
+  .card:hover,
+  .card:focus-visible {
+    border-color: #2073b7;
+    box-shadow: 0 12px 28px rgba(23, 32, 42, 0.1);
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
+    margin-bottom: 16px;
+    border: 1px solid #e4eaef;
+    border-radius: 6px;
+    background: #eef3f7;
+  }
+  .card strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.3rem;
+  }
+  .card span {
+    color: #5d6d7e;
+    line-height: 1.5;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #d8e1e8;
+    color: #5d6d7e;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  footer a { color: #2073b7; }
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+    .card:hover, .card:focus-visible { transform: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>CS2204 Intelligent Sensing Lab Coursework</h1>
+    <p>Three preserved coursework iterations for the Intelligent Sensing Lab website, plus an AI-enhanced single-page edition built from the final coursework assets.</p>
+  </header>
+
+  <section class="grid" aria-label="Coursework versions">
+    <a class="card" href="./cw1/html/index.html">
+      <img src="./screenshots/cw1.jpg" alt="Screenshot of the CW1 home page: unstyled HTML with the lab logo and navigation list." width="640" height="400" loading="lazy">
+      <strong>CW1</strong>
+      <span>Initial multi-page static website. HTML structure only, with no styling.</span>
+    </a>
+
+    <a class="card" href="./cw2/html/index.html">
+      <img src="./screenshots/cw2.jpg" alt="Screenshot of the CW2 home page: styled header, navigation bar and two-column information layout." width="640" height="400" loading="lazy">
+      <strong>CW2</strong>
+      <span>Revised structure with separated HTML and CSS, layout work and a print stylesheet.</span>
+    </a>
+
+    <a class="card" href="./cw3/html/index.html">
+      <img src="./screenshots/cw3.jpg" alt="Screenshot of the CW3 apply page: research group artwork with rank-of-choice inputs." width="640" height="400" loading="lazy">
+      <strong>CW3</strong>
+      <span>Final coursework version. JavaScript adds form validation, booking and content switching.</span>
+    </a>
+
+    <a class="card" href="./ai-plus/index.html">
+      <img src="./screenshots/ai-plus.jpg" alt="Screenshot of the AI+ edition: single page with a tab bar and a light theme." width="640" height="400" loading="lazy">
+      <strong>AI+ Edition</strong>
+      <span>Single-page edition with tab navigation, client-side validation and a light or dark theme.</span>
+    </a>
+  </section>
+
+  <footer>
+    <p>Designed by LIN Jingkai · CS2204 coursework, City University of Hong Kong · <a href="https://github.com/KevinLIN719/cs2204-intelligent-sensing-lab">Project notes</a></p>
+  </footer>
+</main>
+</body>
+</html>

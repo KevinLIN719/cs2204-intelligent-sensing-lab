@@ -1,0 +1,51 @@
+h1{
+    text-align: center;
+}
+.program{
+    margin:30px;
+}
+.promotion1{
+    min-height: 400px;
+    h2{
+        float: left;
+        max-width: 50%;
+    }
+    video{
+        float: right;
+    }
+}
+.promotion2{
+    min-height: 400px;
+    h2{
+        float: left;
+        max-width: 50%;
+    }
+    video{
+        float: right;
+    }
+}
+table{
+    border: 2px solid black;
+    border-collapse: collapse;
+    margin: 10px auto;
+    caption{
+        background-color: rgb(40, 143, 245);
+        border-bottom: 2px solid black;
+    } 
+    td{
+        border-right: 2px solid black;
+        border-bottom: 2px solid black;
+        text-align: center;
+    }
+    tr:nth-child(even){
+        background-color: white;
+    }
+    tr:nth-child(odd){
+        background-color: rgb(141, 197, 245);
+    }
+    th{
+        background-color: aqua;
+        border-bottom: 2px solid black;
+        border-right: 2px solid black;
+    }
+}

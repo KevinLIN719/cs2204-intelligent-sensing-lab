@@ -1,0 +1,49 @@
+.welcome_block{
+    max-width: 80%;
+    margin: 20px auto;
+}
+.about_lab{
+    padding: 20px;
+    margin-bottom: 200px;
+    border: 2px solid black;
+    float: left;
+    max-width: 50%;
+}
+.Table{
+    float: right;
+    max-width: 40%;
+    border: 2px solid black;
+    text-align: center;
+    table{
+        border-collapse: collapse;
+    }
+    caption{
+        background-color: rgb(40, 143, 245);
+        border-bottom: 2px solid black;
+    } 
+    th{
+        border-right: 2px solid black;
+        border-bottom: 2px solid black;
+    }
+    th:last-child{
+        border-right: none;
+    }
+    td:last-child{
+        border-right: none;
+    }
+    td{
+        border-right: 2px solid black;
+    }
+    tr:nth-child(odd){
+        background-color: rgb(53, 187, 240);
+    }
+    tr:nth-child(even){
+        background-color: rgb(141, 197, 245);
+    }
+    th:hover{
+        background-color:yellow;
+    }
+    td:hover{
+        background-color:pink;
+    }
+}

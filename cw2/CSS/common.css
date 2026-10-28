@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.Logo{
+    background-color: skyblue;
+    margin:0 auto;
+    text-align: center;
+}
+
+.nav-list a.active {
+  color: purple;
+  background-color: darkgray;
+  font-weight: bold;
+}
+
+.main-nav{
+    background-color:gray;
+    padding:10px 0;
+}
+.nav-list{
+    list-style:none;
+    display:flex;
+    gap:20px;
+    width:90%;
+    margin:0 auto;
+}
+
+.nav-list a:link { 
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+.nav-list a:visited {
+  color: purple;
+}
+
+.nav-list a:hover {
+  background-color: darkgray;
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+.nav-list a:active {
+  background-color: rgb(78, 78, 78);
+  transform: translateY(0);
+}
+.main-content{
+  margin-bottom: 200px;
+}
+
+footer{
+  clear: both;
+  background-color: skyblue;
+  text-align: center;
+  padding:10px 0;
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+  z-index: 1; 
+}
+.copyright{
+    color: white;
+}

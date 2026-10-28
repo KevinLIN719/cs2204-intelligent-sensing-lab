@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../CSS/common.css">
+    <link rel="stylesheet" href="../CSS/apply.css">
+    <title>Intelligent Sensing Lab - apply</title>
+    <script src="../Javascript/apply.js"></script>
+</head>
+<body>
+    <main class="main-content">
+        <header class="Logo">
+            <img src="../images/logo.png" alt="Intelligent Sensing Lab Logo" width="550" height="150">
+            <h1>Intelligent Sensing Lab</h1>
+        </header>
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="apply.html" class="active">Apply</a></li>
+                <li><a href="visit.html">Visit</a></li>
+                <li><a href="information.html">Information</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <section class="Welcome_Block">
+            <div class="h2_style">
+                <h2>Welcome to ISLab</h2>
+            </div>
+        </section>
+        <section class="Apply_Block">
+            <h2>Join our cutting-edge research teams in these focus areas:</h2>
+            <div class="Optical_Sensing_Division division-wrapper">
+                <h3>Optical Sensing Division</h3>
+                <div class="division-forms">
+                    <form class="group-form" data-division="Optical Sensing Division" data-group="Hyperspectral Imaging Group">
+                        <img src="../images/hyperspectral.png" alt="hyperspectral" width="200" height="200">
+                        <br>
+                        <label>Hyperspectral Imaging Group</label>
+                        <br>
+                        <input type="number" class="rank-input" placeholder="(1-10)" min="1" max="10">
+                        <button type="button" class="submit-rank">rank of choice</button>
+                    </form>
+                    <form class="group-form" data-division="Optical Sensing Division" data-group="LiDAR Development Team">
+                        <img src="../images/lidar.png" alt="lidar" width="200" height="200">
+                        <br>
+                        <label>LiDAR Development Team</label>
+                        <br>
+                        <input type="number" class="rank-input" placeholder="(1-10)" min="1" max="10">
+                        <button type="button" class="submit-rank">rank of choice</button>
+                    </form>
+                    <form class="group-form" data-division="Optical Sensing Division" data-group="Nanophotonics Research">
+                        <img src="../images/nanophotonics.png" alt="nanophotonics" width="200" height="200">
+                        <br>
+                        <label>Nanophotonics Research</label>
+                        <br>
+                        <input type="number" class="rank-input" placeholder="(1-10)" min="1" max="10">
+                        <button type="button" class="submit-rank">rank of choice</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="Bio-Sensing_Division division-wrapper">
+                <h3>Bio-Sensing Division</h3>
+                <div class="division-forms">
+                    <form class="group-form" data-division="Bio-Sensing Division" data-group="Medical Diagnostics Group">
+                        <img src="../images/medical.png" alt="medical" width="200" height="200">
+                        <br>
+                        <label>Medical Diagnostics Group</label>
+                        <br>
+                        <input type="number" class="rank-input" placeholder="(1-10)" min="1" max="10">
+                        <button type="button" class="submit-rank">rank of choice</button>
+                    </form>
+                    <form class="group-form" data-division="Bio-Sensing Division" data-group="Environmental Sensors Team">
+                        <img src="../images/environmental.png" alt="environmental" width="200" height="200">
+                        <br>
+                        <label>Environmental Sensors Team</label>
+                        <br>
+                        <input type="number" class="rank-input" placeholder="(1-10)" min="1" max="10">
+                        <button type="button" class="submit-rank">rank of choice</button>
+                    </form>
+                    <form class="group-form" data-division="Bio-Sensing Division" data-group="Wearable Technology Lab">
+                        <img src="../images/wearable.png" alt="wearable" width="200" height="200">
+                        <br>
+                        <label>Wearable Technology Lab</label>
+                        <br>
+                        <input type="number" class="rank-input" placeholder="(1-10)" min="1" max="10">
+                        <button type="button" class="submit-rank">rank of choice</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="Smart_Sensing_Division division-wrapper">
+                <h3>Smart Sensing Division</h3>
+                <div class="division-forms">
+                    <form class="group-form" data-division="Smart Sensing Division" data-group="IoT Sensor Networks">
+                        <img src="../images/iot.png" alt="iot" width="200" height="200">
+                        <br>
+                        <label>IoT Sensor Networks</label>
+                        <br>
+                        <input type="number" class="rank-input" placeholder="(1-10)" min="1" max="10">
+                        <button type="button" class="submit-rank">rank of choice</button>
+                    </form>
+                    <form class="group-form" data-division="Smart Sensing Division" data-group="AI-Enabled Sensing">
+                        <img src="../images/ai.png" alt="ai" width="200" height="200">
+                        <br>
+                        <label>AI-Enabled Sensing</label>
+                        <br>
+                        <input type="number" class="rank-input" placeholder="(1-10)" min="1" max="10">
+                        <button type="button" class="submit-rank">rank of choice</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <div class="choice">
+            <h3>Your chosen research groups:</h3>
+            <h4>Current Internship Placements:</h4>
+            <table id="choice-table">
+                <thead>
+                    <tr>
+                        <th>Division</th>
+                        <th>Research Group</th>
+                        <th>Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td></td><td></td><td>1</td></tr>
+                    <tr><td></td><td></td><td>2</td></tr>
+                    <tr><td></td><td></td><td>3</td></tr>
+                    <tr><td></td><td></td><td>4</td></tr>
+                    <tr><td></td><td></td><td>5</td></tr>
+                    <tr><td></td><td></td><td>6</td></tr>
+                    <tr><td></td><td></td><td>7</td></tr>
+                    <tr><td></td><td></td><td>8</td></tr>
+                    <tr><td></td><td></td><td>9</td></tr>
+                    <tr><td></td><td></td><td>10</td></tr>
+                </tbody>
+            </table>
+            <h3>Total number of completed choices: <span id="choice-count">0</span></h3>
+            <h3>Last modified time: <span id="last-modified">--</span></h3>
+            <h3>Application Deadline: 15 October 2025</h3>
+            <div class="action-buttons">
+                <a href="#" id="submit-application">Submit</a>
+                <a href="#" id="clear-application">Clear</a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <img src="../images/footer_logo.png" alt="Footer Logo" width="460" height="100">
+        <p class="copyright">&copy; CityU 2025 - Sources of images and text from Wikipedia and Courtesy of Icon pack by Icons8 - Designed by <a href="design.html">LIN Jingkai</a></p>
+    </footer>
+</body>
+</html>
